@@ -41,6 +41,6 @@ class WeixinSpider(scrapy.Spider):
         next_url = response.css('div.p-fy a.np::attr(href)').extract_first()
         if next_url:
             next_url = 'http://weixin.sogou.com/weixin' + next_url
-            yield scrapy.Request(next_url, callback=self.parse)
+            yield scrapy.Request(next_url, callback=self.parse, headers=self.headers)
 
 # todo:待增加爬虫;遇到ip被临时封禁的问题，需要ip代理池
