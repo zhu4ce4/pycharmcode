@@ -9,19 +9,20 @@ import scrapy
 
 
 class PybookItem(scrapy.Item):
-    ma = scrapy.Field()  # 条形码
-    name = scrapy.Field()
-    author = scrapy.Field()  # 有译者的，需要用field元数据将2者合并到author中列到一起
+    条形码 = scrapy.Field()  # 条形码
+    书名 = scrapy.Field()
+    作者 = scrapy.Field()  # 有译者的，需要用field元数据将2者合并到author中列到一起
     # !!!author = scrapy.Field(serializer=(lambda x:x.split(',')))  # 有译者的，需要用field元数据将2者合并到author中列到一起
-    base_price = scrapy.Field()
-    sale_price = scrapy.Field()
-    star45_prob = scrapy.Field()  # 评级4-5星的比例
-    pub_date = scrapy.Field()
-    comments_num = scrapy.Field()
-    avg_star = scrapy.Field()  # 总的平均star
-    ziying = scrapy.Field()  # bool值
-    dianzi_version = scrapy.Field()  # bool值
-    pub_comp = scrapy.Field()  # 第几版也要有
+    定价 = scrapy.Field()
+    售价 = scrapy.Field()
+    四五星 = scrapy.Field()  # 评级4-5星的比例
+    出版日期 = scrapy.Field()
+    评论数 = scrapy.Field()
+    平均分 = scrapy.Field()  # 总的平均star
+    是自营 = scrapy.Field()  # bool值
+    有电子书 = scrapy.Field()  # bool值
+    出版社 = scrapy.Field()  # 第几版也要有
+    链接 = scrapy.Field()
     # !!!!previews = scrapy.Field()  # 仅限简介的第一句话，以逗号或句号分辨
     # !!hotbuyer_said = scrapy.Field()
     # !!!newbuyer_date = scrapy.Field()

@@ -6,4 +6,4 @@
 '''
 from scrapy.cmdline import execute
 
-execute('scrapy crawl amazon --nolog'.split())
+execute('scrapy crawl amazon -o amazonpython.csv --nolog'.split())

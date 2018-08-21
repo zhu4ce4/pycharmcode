@@ -31,15 +31,15 @@ class AmazonSpider(scrapy.Spider):
                     if len(dianzishu_pass) > 1:
                         if '电子书' in dianzishu_pass[1]:
                             yield scrapy.Request(book_link, callback=self.parse_book, headers=self.headers,
-                                                 meta={'name': name, 'dianzi_version': True})
-                        else:
-                            yield scrapy.Request(book_link, callback=self.parse_book, headers=self.headers,
-                                                 meta={'name': name, 'dianzi_version': False})
+                                                 meta={'name': name, 'dianzi_version': True, 'link': book_link})
+                    else:
+                        yield scrapy.Request(book_link, callback=self.parse_book, headers=self.headers,
+                                             meta={'name': name, 'dianzi_version': False, 'link': book_link})
                 else:
-                    print(f'{name} 是电子书')
+                    print(f'{name:50s} 是电子书')
                     continue
             else:
-                print(f'发现一本电子书{name}，没有纸质书')
+                print(f'发现一本外文书{name:50s}')
                 continue
 
         # if response.css('a#pagnNextLink::attr(href)').extract_first():
@@ -62,8 +62,8 @@ class AmazonSpider(scrapy.Spider):
         star_find = response.css(
             'div#averageCustomerReviews_feature_div i.a-icon.a-icon-star span::text').extract_first()
         avg_star = star_find[2:] if star_find else '没有star'
-        base_price = response.css('div#buyBoxInner span.a-color-secondary::text').extract_first()
-        base_price = base_price if base_price else '暂无定价'
+        base_price = response.css('div#buyBoxInner span.a-color-secondary::text').extract()
+        base_price = base_price[1] if base_price else '暂无定价'
         sale_price = response.css('div#buyNewSection span:nth-child(2)::text').extract_first()
         sale_price = sale_price if sale_price else '暂无售价'
         comments_num = response.css(
@@ -74,18 +74,20 @@ class AmazonSpider(scrapy.Spider):
         star4 = int(response.xpath('//*[text()="4 星"]/../following-sibling::td[2]//text()').extract_first()[:-1])
         star5 = int(response.xpath('//*[text()="5 星"]/../following-sibling::td[2]//text()').extract_first()[:-1])
         star45_prob = str(star4 + star5) + '%'
+        link = response.meta['link']
 
         book = PybookItem()
-        book['name'] = name
-        book['pub_date'] = pub_date
-        book['pub_comp'] = pub_comp
-        book['ma'] = ma
-        book['author'] = author
-        book['dianzi_version'] = dianzi_version
-        book['avg_star'] = avg_star
-        book['base_price'] = base_price
-        book['sale_price'] = sale_price
-        book['comments_num'] = comments_num
-        book['ziying'] = ziying
-        book['star45_prob'] = star45_prob
+        book['书名'] = name
+        book['出版日期'] = pub_date
+        book['出版社'] = pub_comp
+        book['条形码'] = ma
+        book['作者'] = author
+        book['有电子书'] = dianzi_version
+        book['平均分'] = avg_star
+        book['定价'] = base_price
+        book['售价'] = sale_price
+        book['评论数'] = comments_num
+        book['是自营'] = ziying
+        book['四五星'] = star45_prob
+        book['链接'] = link
         yield book

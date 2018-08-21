@@ -13,6 +13,8 @@ BOT_NAME = 'pybook'
 
 SPIDER_MODULES = ['pybook.spiders']
 NEWSPIDER_MODULE = 'pybook.spiders'
+FEED_EXPORT_FIELDS = ['条形码', '书名', '链接', '出版日期', '售价', '定价', '四五星', '评论数', '平均分', '是自营', '有电子书', '出版社', '作者']
+FEED_EXPORT_ENCODING = 'GBK'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = 'pybook (+http://www.yourdomain.com)'
