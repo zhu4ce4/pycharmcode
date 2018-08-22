@@ -8,11 +8,15 @@
 import scrapy
 
 
+# def ser(tet):
+#     return '|'.join(tet.split(','))
+
 class PybookItem(scrapy.Item):
+
     条形码 = scrapy.Field()  # 条形码
     书名 = scrapy.Field()
-    作者 = scrapy.Field()  # 有译者的，需要用field元数据将2者合并到author中列到一起
-    # !!!author = scrapy.Field(serializer=(lambda x:x.split(',')))  # 有译者的，需要用field元数据将2者合并到author中列到一起
+    # 作者 = scrapy.Field()  # 有译者的，需要用field元数据将2者合并到author中列到一起
+    作者 = scrapy.Field(serializer=lambda x: '|'.join(x.split(',')))  # 有译者的，需要用field元数据将2者合并到author中列到一起
     定价 = scrapy.Field()
     售价 = scrapy.Field()
     四五星 = scrapy.Field()  # 评级4-5星的比例
@@ -21,7 +25,7 @@ class PybookItem(scrapy.Item):
     平均分 = scrapy.Field()  # 总的平均star
     是自营 = scrapy.Field()  # bool值
     有电子书 = scrapy.Field()  # bool值
-    出版社 = scrapy.Field()  # 第几版也要有
+    出版社 = scrapy.Field(serializer=lambda x: '|'.join(x.split(';')))  # 第几版也要有
     链接 = scrapy.Field()
     # !!!!previews = scrapy.Field()  # 仅限简介的第一句话，以逗号或句号分辨
     # !!hotbuyer_said = scrapy.Field()

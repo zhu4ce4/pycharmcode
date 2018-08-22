@@ -15,6 +15,8 @@ SPIDER_MODULES = ['pybook.spiders']
 NEWSPIDER_MODULE = 'pybook.spiders'
 FEED_EXPORT_FIELDS = ['条形码', '书名', '链接', '出版日期', '售价', '定价', '四五星', '评论数', '平均分', '是自营', '有电子书', '出版社', '作者']
 FEED_EXPORT_ENCODING = 'GBK'
+MONGO_DB_URI = 'mongodb://localhost:27017'
+MONGO_DB_NAME = 'amazonbook'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = 'pybook (+http://www.yourdomain.com)'
@@ -66,7 +68,9 @@ ROBOTSTXT_OBEY = False
 # Configure item pipepipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'pybook.pipelines.PybookPipeline': 300,
+    'pybook.pipelines.DuplicatesPipeline': 300,
+    'pybook.pipelines.PybookPipeline': 350,
+    'pybook.pipelines.MongoDBPipeline': 400,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
