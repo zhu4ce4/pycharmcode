@@ -8,9 +8,9 @@ from ..items import PybookItem
 
 class AmazonSpider(scrapy.Spider):
     name = 'amazon'
-    allowed_domains = ['www.amazon.cn']
+    allowed_domains = ['amazon.cn']
     start_urls = [
-        'https://www.amazon.cn/s/ref=sr_pg_1?rh=n%3A658390051%2Ck%3Atensorflow&keywords=tensorflow&ie=UTF8&qid=1534923954']
+        'https://www.amazon.cn/s?ie=UTF8&page=2&rh=n%3A658390051%2Ck%3Atensorflow']
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'}
 
@@ -49,9 +49,10 @@ class AmazonSpider(scrapy.Spider):
     def parse_book(self, response):
         # name=response.meta['name']  #也可使用name=title[0]获取书名
         title = response.xpath('string(.//h1[@id="title"])').extract_first()
-        title = self.replacesth(title).split('Tapablanda')  # 可以这样调用函数
+        title = self.replacesth(title).split('Tapablanda') if 'Tapablanda' in title else self.replacesth(title).split(
+            '平装')
         name = title[0]
-        pub_date = title[1]
+        pub_date = title[1] if len(title) > 1 else '没有出版日期'
         ma = response.xpath('//b[text()="条形码:"]/../text()').extract_first().strip()
         # name=response.xpath('string(.//h1[@id="title"])').extract_first().replace(' ','').replace('\n','').replace('–','').split('Tapablanda')[0]
         pub_comp = response.xpath('//b[text()="出版社:"]/../text()').extract_first().strip()

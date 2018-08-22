@@ -70,7 +70,7 @@ ROBOTSTXT_OBEY = False
 ITEM_PIPELINES = {
     'pybook.pipelines.DuplicatesPipeline': 300,
     'pybook.pipelines.PybookPipeline': 350,
-    'pybook.pipelines.MongoDBPipeline': 400,
+    # 'pybook.pipelines.MongoDBPipeline': 400,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
