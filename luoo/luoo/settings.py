@@ -62,11 +62,11 @@ DEFAULT_REQUEST_HEADERS = {
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 FILES_STORE = 'downluoo'
-ITEM_PIPELINES = {
+ITEM_PIPELINES = {'luoo.pipelines.MusicPipeline': 1}
     # 'scrapy.pipelines.files.FilesPipeline': 1,
-    'luoo.pipelines.MusicPipeline': 1
+
     # 'luoo.pipelines.LuooPipeline': 300,
-}
+# }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
