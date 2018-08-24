@@ -18,7 +18,7 @@ class TtSpider(scrapy.Spider):
             zimu = info.css('td:nth-child(8)').xpath('string(.)').extract_first()
             if '无' in zimu: continue
             if not init_url:
-                print(f'{name}没有百度云盘链接，请到{self.start_urls}自行查找链接')
+                print(f'{name}没有百度云盘链接，请到{self.start_urls}自行查找其他链接')
                 continue
             yield scrapy.Request(init_url[0], callback=self.parse_tv, dont_filter=True,
                                  meta={'初链': init_url, '提取码': code, '名字': name})
@@ -37,8 +37,8 @@ class TtSpider(scrapy.Spider):
     login_url = 'http://www.ttmeiju.vip/index.php/user/login.html'
 
     def start_requests(self):  # 重写该方法
-        log = {'username': '天天往事',
-               'password': 'tian1tian1wang3shi4',
+        log = {'username': '天天美剧',
+               'password': 'password',
                'loginsubmit': '登录'}
         unicornHeader = {
             'Host': 'www.ttmeiju.vip',
