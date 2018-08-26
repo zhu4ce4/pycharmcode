@@ -7,13 +7,10 @@
 
 import scrapy
 
-
 class DoubanItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
+    image_urls = scrapy.Field()
+    images = scrapy.Field()
     title = scrapy.Field()
     name = scrapy.Field()
     rating = scrapy.Field()
-    pic = scrapy.Field()
-    link = scrapy.Field()
     rank = scrapy.Field()
