@@ -12,27 +12,29 @@ from scrapy.pipelines.images import ImagesPipeline
 
 class PicPipeline(ImagesPipeline):  # 继承该类
 
+    # def get_media_requests(self, item, info):
+    #     for url in item['image_urls']:
+    #         print(url)
+    #         print(1)
+    #         return Request(url, meta={'item': item})
+    #
+    # def file_path(self, request, response=None, info=None):
+    #     item = request.meta['item']
+    #     # rank = item['rank']
+    #     name = item['name']
+    #     # rating = item['rating']
+    #     # title = item['title']
+    #     # image_url=request.url
+    #     image_url = item['image_urls'][0]
+    #     print(2)
+    #     print(name)
+    #     print(3)
+    #     exit()
+    #     # name=str(rank)+name+str(rating)
+    #     # path = f'{title}/{name}.{image_url[-3:]}'
+    #     # return path
+
     def get_media_requests(self, item, info):
-        # for url in item['image_urls']:
-        return Request(item['image_urls'][0], meta={'item': item})
-
-    def file_path(self, request, response=None, info=None):
-        item = request.meta['item']
-        rank = item['rank']
-        name = item['name']
-        rating = item['rating']
-        title = item['title']
-        # image_url=request.url
-        image_url = item['image_urls'][0]
-        print('888', image_url)
-
-        #
-        # name=str(rank)+name+str(rating)
-        # path = f'{title}/{name}.{image_url[-3:]}'
-        # return path
-
-
-'''    def get_media_requests(self, item, info):
         for cixu,url in enumerate(item['image_urls']):
             yield Request(url,meta={'item':item,'cixu':cixu})
 
@@ -46,4 +48,4 @@ class PicPipeline(ImagesPipeline):  # 继承该类
         image_url=item['image_urls'][cixu]
         name=rank+name+rating
         path = f'{title}/{name}.{image_url[-3:]}'
-        return path'''
+        return path
