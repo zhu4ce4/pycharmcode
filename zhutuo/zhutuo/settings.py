@@ -14,11 +14,12 @@ BOT_NAME = 'zhutuo'
 SPIDER_MODULES = ['zhutuo.spiders']
 NEWSPIDER_MODULE = 'zhutuo.spiders'
 MONGO_DB_URI = 'mongodb://localhost:27017/'
-MONGO_DB_NAME = 'dailynews'
-COMMANDS_MODULE = 'zhutuo.commands'
+MONGO_DB_NAME = 'ipdata'
+# COMMANDS_MODULE = 'zhutuo.commands'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-# USER_AGENT = 'zhutuo (+http://www.yourdomain.com)'
+USER_AGENT = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'}
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
@@ -41,9 +42,8 @@ ROBOTSTXT_OBEY = False
 # TELNETCONSOLE_ENABLED = False
 
 # Override the default request headers:
-DEFAULT_REQUEST_HEADERS = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'}
-# todo:怎么能够兼容多个爬虫？？？
+# DEFAULT_REQUEST_HEADERS = {
+#     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'}
 
 # Enable or disable spider middlewares
 # See https://doc.scrapy.org/en/latest/topics/spider-middleware.html

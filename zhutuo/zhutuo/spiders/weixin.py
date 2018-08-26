@@ -8,7 +8,7 @@ class WeixinSpider(scrapy.Spider):
     name = 'weixin'
     allowed_domains = ['weixin.sogou.com']
     start_urls = [
-        f'http://weixin.sogou.com/weixin?usip=&query={x}&ft=&tsn=1&et=&interation=&type=2&wxid=&page=1&ie=utf8' for x in
+        f'http://weixin.sogou.com/weixin?usip=&query={i}&ft=&tsn=1&et=&interation=&type=2&wxid=&page=1&ie=utf8' for i in
         ['朱沱', '松溉', '何埂', '永川港桥', '云龙机场']]
     # ['朱沱', '松溉', '何埂', '永川港桥', '云龙机场']]
     headers = {
@@ -42,5 +42,3 @@ class WeixinSpider(scrapy.Spider):
         if next_url:
             next_url = 'http://weixin.sogou.com/weixin' + next_url
             yield scrapy.Request(next_url, callback=self.parse, headers=self.headers)
-
-# todo:待增加爬虫;遇到ip被临时封禁的问题，需要ip代理池

@@ -5,7 +5,45 @@
 # See documentation in:
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
+import random
+from collections import defaultdict
+
+from pymongo import MongoClient
 from scrapy import signals
+from scrapy.downloadermiddlewares.httpproxy import HttpProxyMiddleware
+from scrapy.exceptions import NotConfigured
+
+
+class RandomHttpProxyMiddleware(HttpProxyMiddleware):
+
+    def __init__(self, auth_encoding='latin-1', proxy_list_file=None):
+        if not proxy_list_file:
+            raise NotConfigured
+        self.auth_encoding = auth_encoding
+        self.proxies = defaultdict(list)
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        cls.DB_URI = crawler.settings.get('MONGO_DB_URI', 'mongodb://localhost:27017')
+        cls.DB_NAME = crawler.settings.get('MONGO_DB_NAME')
+        return cls()
+
+    def open_spider(self, spider):
+        self.client = MongoClient(self.DB_URI)
+        self.db = self.client[self.DB_NAME]
+
+    def close_spider(self, spider):
+        self.client.close()
+
+    def get_ip(self, item, spider):
+        for i in self.db.testedip.find():
+            scheme = i['htp']
+            ip = i['proxy']
+            self.proxies[scheme].append(self._get_proxy(ip, scheme))
+
+    def _set_proxy(self, request, scheme):
+        proxy = random.choice(self.proxies[scheme])
+        request.meta['proxy'] = proxy
 
 
 class ZhutuoSpiderMiddleware(object):

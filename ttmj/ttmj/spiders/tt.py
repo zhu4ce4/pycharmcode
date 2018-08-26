@@ -9,7 +9,9 @@ from scrapy.http import FormRequest
 from .waigua import MiMa
 
 headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'}
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
+                  'Chrome/68.0.3440.106 Safari/537.36'}
+
 
 
 def find_name():
@@ -31,12 +33,15 @@ def find_name():
                 sel = Selector(text=response)
                 tv_url = sel.xpath(f'//a[contains(text(),"{tvname}")]/@href').extract()  # todo:若有多个匹配
                 print(f'找到了{len(tv_url)}个疑似匹配结果：')
-                for i, v in enumerate(tv_url):
+                for m, n in enumerate(tv_url):
                     pattern = re.compile(r'meiju/(.*?).html')
-                    v = re.findall(pattern, v)[0]
-                    print(f'{i}:{v}')
-                tv_num = int(input('请输入你想要的tv对应的数字'))
-                return tv_url[tv_num]
+                    n = re.findall(pattern, n)[0]
+                    print(f'{m}:{n}')
+                    print('999：全部都要')
+                tv_num = int(input('请输入你想要的对应的数字：'))
+                if tv_num == 999:
+                    return tv_url
+                return [tv_url[tv_num]]
         print(f'*************查询了{pages_num}页都没找到,尝试输入精准名字，并扩大搜索页数吧！*************')
 
 
@@ -49,8 +54,6 @@ class TtSpider(scrapy.Spider):
 
     start_urls = [f'http://www.ttmeiju.vip/{url}' for url in url_list]
 
-    # todo:用户输入模糊中文名，自动搜寻匹配英文名，并给出start_url链接（只搜寻指定页数）
-
     login_url = 'http://www.ttmeiju.vip/index.php/user/login.html'
 
     def start_requests(self):  # 重写该方法
@@ -60,10 +63,7 @@ class TtSpider(scrapy.Spider):
         log = {'username': MiMa.username,
                'password': MiMa.password,
                'loginsubmit': '登录'}
-        unicornHeader = {
-            'Host': 'www.ttmeiju.vip',
-            'Referer': 'http://www.ttmeiju.vip/',
-        }
+        unicornHeader = {'Host': 'www.ttmeiju.vip', 'Referer': 'http://www.ttmeiju.vip/', }
         yield FormRequest(self.login_url, headers=unicornHeader, method='POST', callback=self.login_or_not,
                           formdata=log)
 

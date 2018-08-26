@@ -2,7 +2,7 @@
 '''
 @datetime: 2018/8/25 17:02
 @author: Jack Luo
-//todo:
+//todo:1、httpbin访问被拒
 '''
 from scrapy.cmdline import execute
 
