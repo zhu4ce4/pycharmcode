@@ -3,7 +3,7 @@
 @datetime: 2018/8/29 15:59
 @author: Jack Luo
 @job:
-//todo:
+//todo:运用splash结合lua_script提取javascript页面
 '''
 # -*- coding: utf-8 -*-
 import scrapy
@@ -39,7 +39,6 @@ class MoneynewsSpider(scrapy.Spider):
             title = sel.xpath('.//h3/a/text()').extract()[:5]
             # title=sel.xpath('string(.//h3/a)').extract_first()
             link = sel.xpath('.//h3/a/@href').extract()[:5]
-            print(title)
-            # item['title']=title
-            # item['link']=link
-            # yield item
+            item['title'] = title
+            item['link'] = link
+            yield item

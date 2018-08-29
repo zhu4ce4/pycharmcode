@@ -15,7 +15,13 @@ SPIDER_MODULES = ['zhutuo.spiders']
 NEWSPIDER_MODULE = 'zhutuo.spiders'
 MONGO_DB_URI = 'mongodb://localhost:27017/'
 MONGO_DB_NAME = 'ipdata'
-# COMMANDS_MODULE = 'zhutuo.commands'
+COMMANDS_MODULE = 'zhutuo.commands'
+SPLASH_URL = 'http://localhost:8050'
+DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
+SPIDER_MIDDLEWARES = {'scrapy_splash.SplashDeduplicateArgsMiddleware': 100}
+REDIS_HOST = '127.0.0.1'
+REDIS_PORT = 6379
+REDIS_DB_INDEX = 0
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = {
@@ -53,9 +59,13 @@ ROBOTSTXT_OBEY = False
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
-# DOWNLOADER_MIDDLEWARES = {
-#    'zhutuo.middlewares.ZhutuoDownloaderMiddleware': 543,
-# }
+DOWNLOADER_MIDDLEWARES = {
+    # 'zhutuo.middlewares.ZhutuoDownloaderMiddleware': 543,
+    'scrapy_splash.SplashCookiesMiddleware': 723,
+    'scrapy_splash.SplashMiddleware': 725,
+    'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
+    'zhutuo.middlewares.BrowserCookiesMiddleware': 700,
+}
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
@@ -69,6 +79,7 @@ ITEM_PIPELINES = {
     'zhutuo.pipelines.DuplicatesPipeline': 300,
     'zhutuo.pipelines.ZhutuoPipeline': 350,
     'zhutuo.pipelines.MongodbPipeline': 400,
+    # 'zhutuo.pipelines.YcltPipeline': 450,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

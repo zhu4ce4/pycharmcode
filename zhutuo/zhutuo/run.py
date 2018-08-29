@@ -7,5 +7,5 @@
 from scrapy.cmdline import execute
 
 # execute('scrapy crawl zt -o zt.xml'.split())
-execute('scrapy crawl weixin'.split())
+execute('scrapy crawl yc'.split())
 # execute('scrapy crawlall'.split())

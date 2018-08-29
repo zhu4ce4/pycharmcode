@@ -8,10 +8,24 @@
 import random
 from collections import defaultdict
 
+import browsercookie
 from pymongo import MongoClient
 from scrapy import signals
+from scrapy.downloadermiddlewares.cookies import CookiesMiddleware
 from scrapy.downloadermiddlewares.httpproxy import HttpProxyMiddleware
 from scrapy.exceptions import NotConfigured
+
+
+class BrowserCookiesMiddleware(CookiesMiddleware):
+    def __init__(self, debug=False):
+        super().__init__(debug)
+        self.load_browser_cookies()
+
+    def load_browser_cookies(self):
+        jar = self.jars['chrome']
+        chrome_cookiejar = browsercookie.chrome()
+        for cookie in chrome_cookiejar:
+            jar.set_cookie(cookie)
 
 
 class RandomHttpProxyMiddleware(HttpProxyMiddleware):
