@@ -6,7 +6,6 @@
 //todo:
 '''
 import datetime
-from datetime import datetime
 
 # -*- coding: utf-8 -*-
 import scrapy
@@ -24,7 +23,6 @@ class YcSpider(scrapy.Spider):
         'http://bbs.cqyc.net/search.php?mod=forum&formhash=2cd084c1&srchtxt=%BA%CE%B9%A1&searchsubmit=yes']
     # 'http://bbs.cqyc.net/search.php?mod=forum&searchid=924&orderby=lastpost&ascdesc=desc&searchsubmit=yes&page=1']
     today = datetime.date.today()
-    inaweek = datetime.date.today() + datetime.timedelta(-6)
 
     def start_requests(self):
         for url in self.start_urls:
@@ -34,15 +32,15 @@ class YcSpider(scrapy.Spider):
         infos = response.css('div#threadlist li.pbw')
         item = GongKaiItem()
         for info in infos:
-            riqi = info.css('p:nth-child(4) span:nth-child(1)::text').extract_first()
-            riqi = riqi[:-6]
+            riqistr = info.css('p:nth-child(4) span:nth-child(1)::text').extract_first()
+            riqi = riqistr[:-6]
             riqi = datetime.datetime.strptime(riqi, '%Y-%m-%d').date()
-            if (self.today - riqi) < datetime.timedelta(7):
+            if (self.today - riqi) < datetime.timedelta(6):
                 title = info.xpath('string(.//a)').extract_first()
                 link = info.css('a::attr(href)').extract_first()
                 item['biaoti'] = title
                 item['link'] = link
-                # yield item
-                print(item)
+                item['time'] = riqistr
+                return item
             else:
                 break

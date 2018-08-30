@@ -10,7 +10,6 @@ class WeixinSpider(scrapy.Spider):
     start_urls = [
         f'http://weixin.sogou.com/weixin?usip=&query={i}&ft=&tsn=1&et=&interation=&type=2&wxid=&page=1&ie=utf8' for i in
         ['朱沱', '松溉', '何埂', '永川港桥', '云龙机场']]
-    # ['朱沱', '松溉', '何埂', '永川港桥', '云龙机场']]
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
         'Referer': 'http://weixin.sogou.com/weixin?usip=&query=%E6%9D%BE%E6%BA%89&ft=&tsn=1&et=&interation=&type=2&wxid=&page=2&ie=utf8'}
